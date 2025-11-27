@@ -114,6 +114,5 @@ static void _preorder(BST T, int* pos, int* a)
 		a[(*pos)++] = get_val(T);
 		_preorder(get_LC(T), pos, a);
 		_preorder(get_RC(T), pos, a);
-		printf("Hello");
 	}
 }
