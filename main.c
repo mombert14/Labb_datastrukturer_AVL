@@ -7,6 +7,7 @@ void usage(char* s)
 }
 int main(int argc, char** argv)
 {
+	printf("testing make funk\n");
 	int opt;
   	bool echo = false;
 	char mode;
@@ -26,3 +27,4 @@ int main(int argc, char** argv)
 	run(mode,echo);
 	exit(EXIT_SUCCESS);
 }
+//nög

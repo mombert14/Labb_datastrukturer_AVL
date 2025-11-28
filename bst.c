@@ -21,6 +21,7 @@ BST new_BST(int val)
 //-----------------------------------------------------------------------------
 BST bst_add(BST T, int v)
 {
+
 	return	!T            	?	new_BST(v)                            :
 		v < get_val(T)	?	cons(add(get_LC(T), v), T, get_RC(T)) :
 		v > get_val(T)	?	cons(get_LC(T), T, add(get_RC(T), v)) :
@@ -85,7 +86,16 @@ void bfs(BST T, int* a, int max)
 //-----------------------------------------------------------------------------
 bool is_member(BST T, int val)
 {
-	// TODO
+	int value_im_looking_4 = val;
+	if (T)
+	{
+		printf("on look out\n");
+		return value_im_looking_4 < T->val ? is_member(T->LC, value_im_looking_4):
+		value_im_looking_4> T->val ? is_member(T->RC, value_im_looking_4):
+		value_im_looking_4 == T->val;
+		
+	}
+	
 	return 	false;
 }
 //-----------------------------------------------------------------------------

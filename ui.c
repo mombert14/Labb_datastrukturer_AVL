@@ -79,7 +79,7 @@ int get_int(char* prompt)
 	printf("%s",prompt);
 	char buf[BUFSIZE];
 	fgets(buf,BUFSIZE-1,stdin);
-	if(!isdigit(buf[0]))return X;
+	//if(!isdigit(buf[0]))return X;
 	return atoi(buf);
 }
 //-----------------------------------------------------------------------------
@@ -87,13 +87,15 @@ int get_int(char* prompt)
 //-----------------------------------------------------------------------------
 BST ui_add(BST T)
 {
-	int val;
+	int value_i_want_to_add;
 	do{
-		val = get_int("Enter value to be added> ");
-		if(val == X)printf("Error: not allowed in tree\n");
-	}while(val == X);
-	if(echo)printf("%d\n", val);
-	return add(T, val);
+		value_i_want_to_add = get_int("Enter value to be added> ");
+		if(value_i_want_to_add == X)printf("Error: not allowed in tree\n");
+	}while(value_i_want_to_add == X);
+	
+	
+	if(echo)printf("%d\n", value_i_want_to_add);
+	return add(T, value_i_want_to_add);
 }
 //-----------------------------------------------------------------------------
 // gets input and removes and element from T

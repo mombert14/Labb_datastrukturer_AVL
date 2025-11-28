@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "global.h": "c",
+        "compare": "c",
+        "cmath": "c",
+        "stdbool.h": "c"
+    }
+}
