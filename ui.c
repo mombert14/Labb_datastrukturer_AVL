@@ -131,7 +131,7 @@ void ui_find(BST T)
 void run(char m, bool e)
 {
 	char val;
-	BST T = NULL;
+	BST T = NULL; //initar trädet
 	add = (m=='a')? avl_add: bst_add;	// setting "polymorphic" function for add
 	rem = (m=='a')? avl_rem: bst_rem;	// setting "polymorphic" function for rem
 	echo = e;

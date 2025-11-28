@@ -8,6 +8,8 @@
 // local function prototypes
 //-----------------------------------------------------------------------------
 static void _preorder(BST T, int* pos, int* a);
+
+static void _inorder(BST T, int* pos, int* a);
 //-----------------------------------------------------------------------------
 // public functions, exported through bst.h
 //-----------------------------------------------------------------------------
@@ -47,6 +49,8 @@ void preorder(BST T, int* a)
 	int pos = 0;
 	_preorder(T, &pos, a);
 }
+
+
 //-----------------------------------------------------------------------------
 // inorder: puts the BST T values into array a in inorder
 //-----------------------------------------------------------------------------
@@ -56,7 +60,8 @@ void preorder(BST T, int* a)
 //-----------------------------------------------------------------------------
 void inorder(BST T, int* a)
 {
-	// TODO
+	int pos = 0;
+	_inorder(T, &pos, a);
 }
 //-----------------------------------------------------------------------------
 // postorder: puts the BST T values into array a in postorder
@@ -122,7 +127,21 @@ static void _preorder(BST T, int* pos, int* a)
 	if (T)
 	{
 		a[(*pos)++] = get_val(T);
+		printf("%d ", a[(*pos)-1]);
 		_preorder(get_LC(T), pos, a);
 		_preorder(get_RC(T), pos, a);
+	}
+}
+
+
+static void _inorder(BST T, int* pos, int* a)
+{
+	if (T)
+	{
+		
+		_inorder(get_LC(T), pos, a);
+		a[(*pos)++] = get_val(T);
+		printf("%d ", a[(*pos)-1]);
+		_inorder(get_RC(T), pos, a);
 	}
 }
