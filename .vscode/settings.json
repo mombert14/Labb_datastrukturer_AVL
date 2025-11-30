@@ -3,6 +3,8 @@
         "global.h": "c",
         "compare": "c",
         "cmath": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "bit": "c",
+        "type_traits": "c"
     }
 }
