@@ -26,7 +26,7 @@ BST new_BST(int val)
 BST bst_add(BST T, int v)
 {
 
-	return	!T            	?	new_BST(v)                            :
+	return	!T          ?	new_BST(v)                            :
 		v < get_val(T)	?	cons(add(get_LC(T), v), T, get_RC(T)) :
 		v > get_val(T)	?	cons(get_LC(T), T, add(get_RC(T), v)) :
 		/* duplicate */		T;

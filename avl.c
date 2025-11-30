@@ -10,6 +10,7 @@ static AVL srr(AVL T);
 static AVL slr(AVL T);
 static AVL drr(AVL T);
 static AVL dlr(AVL T);
+static int balance_factor(AVL T);
 //=============================================================================
 // Public functions, exported via .h-file
 //-----------------------------------------------------------------------------
@@ -19,7 +20,8 @@ static AVL dlr(AVL T);
 AVL avl_add(AVL T, int val)
 {
 	if(DEBUG)printf("avl_add (%d)\n",val);
-	// TODO
+	T = bst_add(T, val);
+	return balance(T);
 	return T;
 }
 //-----------------------------------------------------------------------------
@@ -28,41 +30,60 @@ AVL avl_add(AVL T, int val)
 AVL avl_rem(AVL T, int val)
 {
 	if(DEBUG)printf("avl_rem (%d)\n",val);
-	// TODO
-	return T;
+	T = bst_rem(T, val);
+	return balance(T);
 }
 //-----------------------------------------------------------------------------
 // balance: balances the AVL tree T if needed
 //-----------------------------------------------------------------------------
 AVL balance(AVL T)
 {
-	// TODO
-	return srr(slr(drr(dlr(T))));
+	if(!T) return NULL;
+
+	int bf = balance_factor(T);
+
+	if(bf > 1)
+		return balance_factor(T->LC) >= 0 ? srr(T) : drr(T);
+	
+	if(bf < -1)
+		return balance_factor(T->RC) <= 0 ? slr(T) : dlr(T);
+
+	return T;
 }
 //=============================================================================
 // Private functions, for local use only
 //-----------------------------------------------------------------------------
-static AVL srr(AVL T)
+static AVL srr(AVL T) // Single right rotation
 {
 	if(DEBUG)printf("srr\n");
-	// TODO
-	return T;
+	AVL L = T->LC;
+	T->LC = L->RC;
+	L->RC = T;
+	return L;
 }
-static AVL slr(AVL T)
+static AVL slr(AVL T) // single left rotation
 {
 	if(DEBUG)printf("slr\n");
-	// TODO
-	return T;
+	AVL R = T ->RC;
+	T->RC = R->LC;
+	R->LC = T;
+	return R;
 }
-static AVL drr(AVL T)
+static AVL drr(AVL T) // Double right rotation
 {
 	if(DEBUG)printf("drr\n");
-	// TODO
-	return T;
+	T->LC = slr(T->LC);
+	return srr(T);
 }
-static AVL dlr(AVL T)
+static AVL dlr(AVL T) // Double left rotation
 {
 	if(DEBUG)printf("drr\n");
-	// TODO
-	return T;
+	T->RC = srr(T->RC);
+	return slr(T);
+}
+
+static int balance_factor(AVL T)
+{
+	if(!T)return 0;
+	return height(T->LC) - height(T->RC);
 }

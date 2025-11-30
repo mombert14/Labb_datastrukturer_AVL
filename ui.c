@@ -1,4 +1,4 @@
-//ui.c
+// ui.c
 #include "ui.h"
 #include "global.h"
 static bool echo = false;
@@ -7,45 +7,122 @@ static bool echo = false;
 //-----------------------------------------------------------------------------
 void print_tree(BST T)
 {
-	int max_n = pow(2,height(T));
-	int* arr = (int*)calloc(MAX,sizeof(int));
+	int max_n = pow(2, height(T));
+	int *arr = (int *)calloc(MAX, sizeof(int));
 	bfs(T, arr, max_n);
-	if(!T)
+	if (!T)
 		printf("\nTree is empty\n\n\n");
 	else
-		print_2d(arr, max_n-1);
+		print_2d(arr, max_n - 1);
 	printf("Size:\t\t%d\n", size(T));
 	printf("Height:\t\t%d\n", height(T));
-	printf("Preorder:\t");	preorder(T,arr);		print_array(arr,size(T));
-	printf("Inorder:\t");	inorder(T,arr);			print_array(arr,size(T));
-	printf("Postorder:\t");	postorder(T,arr);		print_array(arr,size(T));
-	printf("BFS star:\t");bfs(T,arr,max_n);			print_array(arr,max_n-1);
+	printf("Preorder:\t");
+	preorder(T, arr);
+	print_array(arr, size(T));
+	printf("Inorder:\t");
+	inorder(T, arr);
+	print_array(arr, size(T));
+	printf("Postorder:\t");
+	postorder(T, arr);
+	print_array(arr, size(T));
+	printf("BFS star:\t");
+	bfs(T, arr, max_n);
+	print_array(arr, max_n - 1);
 	free(arr);
 }
 //-----------------------------------------------------------------------------
 // prints the contents of integer array a from 0 up to size
 //-----------------------------------------------------------------------------
-void print_array(int* a, int size)
+void print_array(int *a, int size)
 {
 	printf("[");
-	if(size == 0){printf("]\n");return;}
-	for(int i = 0 ; i < size ; i++)
-		if(a[i] != X)
-			printf("%d%s",a[i],i<size-1?", ":"]");
+	if (size == 0)
+	{
+		printf("]\n");
+		return;
+	}
+	for (int i = 0; i < size; i++)
+		if (a[i] != X)
+			printf("%d%s", a[i], i < size - 1 ? ", " : "]");
 		else
-			printf("'*'%s",i<size-1?", ":"]");
+			printf("'*'%s", i < size - 1 ? ", " : "]");
 	printf("\n");
 }
 //-----------------------------------------------------------------------------
 // prints a tree, represented by the BFS order star array a of size maxnodes
 // in a 2-dimensional way
 //-----------------------------------------------------------------------------
-void print_2d(int* a, int maxnodes)
+void print_2d(int *a, int maxnodes)
 {
+	int level = 0, index = 0, count = 1;
+
+	int space_before = BEFORE;
+	int space_inbetween = BETWEEN;
+
 	printf("\nTree 2d\n");
-	// TODO
-	printf("\n");
+
+	// count the amount of level the tree has
+	while (index < maxnodes)
+	{
+
+		for (int i = 0; i < space_before; i++)
+			printf(" ");
+
+		int start = index;
+
+		// print all nodes on the level
+		for (int i = 0; i < count && index < maxnodes; i++, index++)
+		{
+			if (a[index] == X)
+				printf("X");
+			else
+				printf("%d", a[index]);
+
+			for (int j = 0; j < space_inbetween; j++)
+				printf(" ");
+		}
+
+		printf("\n");
+
+		// print / \ in tree
+
+		for (int j = 0; j < space_before - 1; j++)
+			printf(" ");
+
+		for (int i = 0; i < count && (start + i) < maxnodes; i++)
+		{
+
+			if (a[start + i] != X)
+			{
+				printf("/");
+
+				for (int j = 0; j < space_inbetween - 2; j++)
+					printf(" ");
+
+				printf("\\");
+			}
+			else
+			{
+
+				for (int j = 0; j < space_inbetween; j++)
+					printf(" ");
+			}
+
+			for (int j = 0; j < space_inbetween; j++)
+				printf(" ");
+		}
+
+		printf("\n\n");
+		level++;
+		count *= 2;
+
+		if (space_before > 1)
+			space_before /= 2;
+		if (space_inbetween > 1)
+			space_inbetween /= 2;
+	}
 }
+
 //-----------------------------------------------------------------------------
 // prints the menu
 //-----------------------------------------------------------------------------
@@ -63,23 +140,24 @@ void print_menu()
 //-----------------------------------------------------------------------------
 // gets an input character
 //-----------------------------------------------------------------------------
-char get_choice(char* prompt)
+char get_choice(char *prompt)
 {
 	printf("%s", prompt);
 	char buf[BUFSIZE];
-	fgets(buf, BUFSIZE-1, stdin);
-	if(echo)printf("%c\n", buf[0]);
+	fgets(buf, BUFSIZE - 1, stdin);
+	if (echo)
+		printf("%c\n", buf[0]);
 	return buf[0];
 }
 //-----------------------------------------------------------------------------
 // gets an input integer
 //-----------------------------------------------------------------------------
-int get_int(char* prompt)
+int get_int(char *prompt)
 {
-	printf("%s",prompt);
+	printf("%s", prompt);
 	char buf[BUFSIZE];
-	fgets(buf,BUFSIZE-1,stdin);
-	//if(!isdigit(buf[0]))return X;
+	fgets(buf, BUFSIZE - 1, stdin);
+	// if(!isdigit(buf[0]))return X;
 	return atoi(buf);
 }
 //-----------------------------------------------------------------------------
@@ -88,13 +166,15 @@ int get_int(char* prompt)
 BST ui_add(BST T)
 {
 	int value_i_want_to_add;
-	do{
+	do
+	{
 		value_i_want_to_add = get_int("Enter value to be added> ");
-		if(value_i_want_to_add == X)printf("Error: not allowed in tree\n");
-	}while(value_i_want_to_add == X);
-	
-	
-	if(echo)printf("%d\n", value_i_want_to_add);
+		if (value_i_want_to_add == X)
+			printf("Error: not allowed in tree\n");
+	} while (value_i_want_to_add == X);
+
+	if (echo)
+		printf("%d\n", value_i_want_to_add);
 	return add(T, value_i_want_to_add);
 }
 //-----------------------------------------------------------------------------
@@ -103,11 +183,14 @@ BST ui_add(BST T)
 BST ui_rem(BST T)
 {
 	int val;
-	do{
+	do
+	{
 		val = get_int("Enter value to be deleted> ");
-		if(val == X)printf("Error: not allowed in tree\n");
-	}while(val == X);
-	if(echo)printf("%d\n", val);
+		if (val == X)
+			printf("Error: not allowed in tree\n");
+	} while (val == X);
+	if (echo)
+		printf("%d\n", val);
 	return rem(T, val);
 }
 //-----------------------------------------------------------------------------
@@ -116,12 +199,15 @@ BST ui_rem(BST T)
 void ui_find(BST T)
 {
 	int val;
-	do{
+	do
+	{
 		val = get_int("Enter value to search for> ");
-		if(val == X)printf("Error: not allowed in tree\n");
-	}while(val == X);
-	if(echo)printf("%d\n", val);
-	printf("%d is a%smember\n", val, is_member(T,val)?" ":" non-");
+		if (val == X)
+			printf("Error: not allowed in tree\n");
+	} while (val == X);
+	if (echo)
+		printf("%d\n", val);
+	printf("%d is a%smember\n", val, is_member(T, val) ? " " : " non-");
 }
 //-----------------------------------------------------------------------------
 // runs the menu and system
@@ -131,23 +217,37 @@ void ui_find(BST T)
 void run(char m, bool e)
 {
 	char val;
-	BST T = NULL; //initar trädet
-	add = (m=='a')? avl_add: bst_add;	// setting "polymorphic" function for add
-	rem = (m=='a')? avl_rem: bst_rem;	// setting "polymorphic" function for rem
+	BST T = NULL;						  // initar trädet
+	add = (m == 'a') ? avl_add : bst_add; // setting "polymorphic" function for add
+	rem = (m == 'a') ? avl_rem : bst_rem; // setting "polymorphic" function for rem
 	echo = e;
-	printf("[INFO] running in %s mode\n",m=='a'?"AVL":"BST");
+	printf("[INFO] running in %s mode\n", m == 'a' ? "AVL" : "BST");
 	print_menu();
-	do {
+	do
+	{
 		val = get_choice("menu> ");
-		switch(val)
+		switch (val)
 		{
-			case 'm': print_menu(); 						break;
-			case 't': print_tree(T); 						break;
-			case 'a': T = ui_add(T); 						break;
-			case 'd': T = ui_rem(T); 						break;
-			case 'f': ui_find(T); 							break;
-			case 'q': 						 				break;
-			default	: printf("Unknown command (%c)\n",val);	break;
+		case 'm':
+			print_menu();
+			break;
+		case 't':
+			print_tree(T);
+			break;
+		case 'a':
+			T = ui_add(T);
+			break;
+		case 'd':
+			T = ui_rem(T);
+			break;
+		case 'f':
+			ui_find(T);
+			break;
+		case 'q':
+			break;
+		default:
+			printf("Unknown command (%c)\n", val);
+			break;
 		}
-	} while(val != 'q');
+	} while (val != 'q');
 }

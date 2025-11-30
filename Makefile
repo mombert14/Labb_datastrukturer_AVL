@@ -1,9 +1,9 @@
 CFLAGS = -Wall
 # Remove this -lm flag on Mac
-LDLIBS = -lm
+
 
 tree:		global.o bt.o bst.o avl.o main.o ui.o
-			gcc $(CLFAGS) -o tree bt.o bst.o avl.o ui.o global.o main.o $(LDLIBS)
+			gcc $(CFLAGS) -o tree bt.o bst.o avl.o ui.o global.o main.o 
 
 global.o:	global.h global.c
 			gcc $(CFLAGS) -c global.c
