@@ -54,50 +54,60 @@ void print_array(int *a, int size)
 //-----------------------------------------------------------------------------
 void print_2d(int *a, int maxnodes)
 {
-	int num_level = 0, index = 0, count = 1, nodes = 1;
-
-	int space_before = BEFORE;
-	int space_inbetween = BETWEEN;
 
 	printf("\nTree 2d\n");
 
-	// count the amount of level the tree has
-	while (nodes <= maxnodes)
+	if (maxnodes <= 0)
 	{
-		nodes *= 2;
-		num_level++;
+		printf("\n");
+		return;
+	}
+	int levels = 0;
+
+	// count the amount of level the tree has
+	while ((int)pow(2, levels) - 1 < maxnodes)
+	{
+		levels++;
 	}
 
 	// prints level by level
-	for (int level = 0; level < num_level; level++)
+	for (int num_level = 0; num_level < levels; num_level++)
 	{
+		int first_index = (int)pow(2, num_level) - 1;
+		int nodes_on_level = (int)pow(2, num_level);
+
+		int space_before = ((int)pow(2, levels - num_level) - 1) * (N_WIDTH + 1);
+		int space_between = ((int)pow(2, levels - num_level + 1) - 1) * (N_WIDTH + 1);
 
 		for (int i = 0; i < space_before; i++)
 			printf(" ");
 
 		// prints all nodes on the level
-		for (int i = 0; i < count && index < maxnodes; i++, index++)
+		for (int i = 0; i < nodes_on_level; i++)
 		{
-			if (a[index] == X)
-				printf("*");
-			else
-				printf("%d", a[index]);
+			int index = first_index + i;
+			if (index >= maxnodes)
+				break;
 
-			for (int j = 0; j < space_inbetween; j++)
-				printf(" ");
+			if (a[index] == X)
+				printf("%*s ", N_WIDTH, "*");
+
+			else
+				printf("%*d ", N_WIDTH, a[index]);
+
+			// space between nodes
+			if (i < nodes_on_level - 1)
+			{
+
+				for (int j = 0; j < space_between; j++)
+					printf(" ");
+			}
 		}
 
-		// New level
 		printf("\n");
-
-		// Amount of nodes on next level
-		count *= 2;
-
-		if (space_before > FOUR)
-			space_before -= FOUR;
-		if (space_inbetween > FOUR)
-			space_inbetween -= FOUR;
 	}
+
+	printf("\n");
 }
 
 //-----------------------------------------------------------------------------

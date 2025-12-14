@@ -29,7 +29,7 @@ BST new_BST(int val)
 BST bst_add(BST T, int v)
 {
 
-	return	!T            	?	new_BST(v)                            :
+	return	!T          ?	new_BST(v)                            :
 		v < get_val(T)	?	cons(add(get_LC(T), v), T, get_RC(T)) :
 		v > get_val(T)	?	cons(get_LC(T), T, add(get_RC(T), v)) :
 		/* duplicate */		T;
@@ -262,10 +262,3 @@ static void _postorder(BST T, int* pos, int* a)
 		a[(*pos)++] = get_val(T);		
 	}
 }
-
-
-/*static void _bfs_add_to_array(BST T, int pos, int * a){
-    if(!T)return;
-    a[pos] = get_val(T);
-    return;
-}*/

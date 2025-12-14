@@ -19,7 +19,8 @@ static int balance_factor(AVL T);
 //-----------------------------------------------------------------------------
 AVL avl_add(AVL T, int val)
 {
-	if(DEBUG)printf("avl_add (%d)\n",val);
+	if (DEBUG)
+		printf("avl_add (%d)\n", val);
 	T = bst_add(T, val);
 	return balance(T);
 }
@@ -28,7 +29,8 @@ AVL avl_add(AVL T, int val)
 //-----------------------------------------------------------------------------
 AVL avl_rem(AVL T, int val)
 {
-	if(DEBUG)printf("avl_rem (%d)\n",val);
+	if (DEBUG)
+		printf("avl_rem (%d)\n", val);
 	T = bst_rem(T, val);
 	return balance(T);
 }
@@ -37,14 +39,15 @@ AVL avl_rem(AVL T, int val)
 //-----------------------------------------------------------------------------
 AVL balance(AVL T)
 {
-	if(!T) return NULL;
+	if (!T)
+		return NULL;
 
 	int bf = balance_factor(T);
 
-	if(bf > 1)
+	if (bf > 1)
 		return balance_factor(get_LC(T)) >= 0 ? srr(T) : drr(T);
-	
-	if(bf < -1)
+
+	if (bf < -1)
 		return balance_factor(get_RC(T)) <= 0 ? slr(T) : dlr(T);
 
 	return T;
@@ -54,28 +57,31 @@ AVL balance(AVL T)
 //-----------------------------------------------------------------------------
 static AVL srr(AVL T) // Single right rotation
 {
-	if(DEBUG)printf("srr\n");
+	if (DEBUG)
+		printf("srr\n");
 	AVL L = get_LC(T);
 	AVL LR = get_RC(L);
 
-	set_LC(T,LR);
-	set_RC(L,T);
+	set_LC(T, LR);
+	set_RC(L, T);
 	return L;
 }
 static AVL slr(AVL T) // single left rotation
 {
-	if(DEBUG)printf("slr\n");
+	if (DEBUG)
+		printf("slr\n");
 	AVL R = get_RC(T);
 	AVL RL = get_LC(R);
 
 	set_RC(T, RL);
 	set_LC(R, T);
-	
+
 	return R;
 }
 static AVL drr(AVL T) // Double right rotation
 {
-	if(DEBUG)printf("drr\n");
+	if (DEBUG)
+		printf("drr\n");
 	AVL L = get_LC(T);
 	L = slr(L);
 
@@ -93,6 +99,7 @@ static AVL dlr(AVL T) // Double left rotation
 
 static int balance_factor(AVL T)
 {
-	if(!T)return 0;
+	if (!T)
+		return 0;
 	return height(get_LC(T)) - height(get_RC(T));
 }
