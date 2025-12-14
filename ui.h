@@ -6,10 +6,6 @@
 #ifndef UI_H
 #define UI_H
 #define BUFSIZE 100
-#define BEFORE 20
-#define BETWEEN 12
-#define N_WIDTH 2
-#define FOUR 4
 void print_tree(BST T);
 void print_array(int* a, int size);
 void print_2d(int* a, int maxnodes);
